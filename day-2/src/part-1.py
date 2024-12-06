@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 MIN_OFFSET = 1
 MAX_OFFSET = 3
 
@@ -8,23 +10,30 @@ def extract_reports(lines):
         reports.append([int(level) for level in str_levels])
     return reports
 
-def is_report_valid(report_levels):
-    differences = []
-    for index in range(1, len(report_levels)):
-        last = report_levels[index-1]
-        current = report_levels[index]
-        differences.append(current-last)
-
-    is_valid_increasing_list = all(difference >= MIN_OFFSET  and difference <= MAX_OFFSET  for difference in differences)
-    is_valid_decreasing_list = all(difference <= -MIN_OFFSET and difference >= -MAX_OFFSET for difference in differences)
+def is_report_valid(report_levels, validation_function):
+    last = report_levels[0]
     
-    return is_valid_increasing_list or is_valid_decreasing_list
+    for index in range(1, len(report_levels)):
+        current = report_levels[index]
+        is_valid = validation_function(current-last)
+        if not is_valid:
+            return False
+        last = current
+    
+    return True
 
+def validate_increasing(difference):
+    return difference >= MIN_OFFSET  and difference <= MAX_OFFSET
+
+def validate_decreasing(difference):
+    return difference <= -MIN_OFFSET and difference >= -MAX_OFFSET
 
 def count_valid_reports(reports):
     count = 0
     for report in reports:
-        if is_report_valid(report):
+        is_increasing_valid = is_report_valid(report, validate_increasing)
+        is_decreasing_valid = is_report_valid(report, validate_decreasing)
+        if is_increasing_valid or is_decreasing_valid:
             count +=1
     return count
 
