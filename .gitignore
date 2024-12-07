@@ -1,0 +1,7 @@
+# Ignore all __pycache__ directories and files inside them
+__pycache__/
+
+# Add other ignore patterns as needed
+*.log
+*.tmp
+*.bak
