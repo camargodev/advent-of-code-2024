@@ -15,7 +15,7 @@ class Guardroutemapper:
         visited_movements.add((position, direction))
         while position is not None:
             next = self.get_next(position, direction)
-            if next not in map_positions or (next, position) in visited_movements:
+            if next not in map_positions:
                 position = None
                 continue
             if next in obstacles:
