@@ -15,7 +15,6 @@ class Guardroutemapper:
         visited_cells = set([position for position, _ in movements])
         number_of_loops = 0
         for index, cell in enumerate(visited_cells):
-            print(index, len(visited_cells))
             stuck_in_loop, _ = self.run_trough_path( map_positions, obstacles, position, direction, add_obstacle=cell)
             if stuck_in_loop:
                 number_of_loops += 1
@@ -26,7 +25,6 @@ class Guardroutemapper:
         visited_movements.add((position, direction))
         while position is not None:
             next = self.get_next(position, direction)
-            print(position, direction)
             if (next, direction) in visited_movements:
                 return True, visited_movements
             if next not in map_positions:
